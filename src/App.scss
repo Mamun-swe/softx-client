@@ -1,0 +1,32 @@
+@import "~bootstrap/scss/bootstrap";
+
+$primary: #14b3fd;
+
+/* Flex Box */
+
+.flex-center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 100%;
+}
+
+.flex-column {
+    -ms-flex-direction: column !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+    flex-direction: column !important;
+}
+
+// Custom Container
+.container {
+    @media (min-width: 1500px) {
+        max-width: 1450px;
+    }
+}
