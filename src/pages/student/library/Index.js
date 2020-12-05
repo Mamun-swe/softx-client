@@ -5,17 +5,23 @@ import '../../../styles/student/style.scss'
 import Skeleton from 'react-loading-skeleton'
 
 import NavBar from '../../../components/student/Navbar/Index'
+import ViewStatusModal from '../../../components/student/Modal/ViewStatus'
 
 const Index = () => {
+    const [show, setShow] = useState(false)
     const [isLoading, setLoading] = useState(true)
+    const [requestLoading, setRequestLoading] = useState(false)
     const [books, setBooks] = useState([])
     const [fakeArr] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    const [bookId, setBookId] = useState({})
+    const [message, setMessage] = useState({})
+
+
+    const header = {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+    }
 
     useEffect(() => {
-        const header = {
-            headers: { Authorization: "Bearer " + localStorage.getItem("token") }
-        }
-
         const fetchBooks = async () => {
             try {
                 const response = await axios.get(`${apiURL}student/request/pending`, header)
@@ -32,6 +38,43 @@ const Index = () => {
 
         fetchBooks()
     }, [])
+
+    // View Book
+    const ViewBook = async (data) => {
+        try {
+            setBookId(data)
+            const response = await axios.get(`${apiURL}student/request/${data}/view`, header)
+            console.log(response)
+        } catch (error) {
+            if (error) {
+                setMessage(error.response.data.message)
+                setShow(true)
+            }
+        }
+    }
+
+    // Sent Access Request
+    const sendAccessRequest = async () => {
+        const data = {
+            bookId: bookId
+        }
+        try {
+            setRequestLoading(true)
+            const response = await axios.post(`${apiURL}student/request/book`, data, header)
+
+            if (response.status === 200) {
+                setRequestLoading(false)
+            }
+            if (response.status === 209) {
+                setRequestLoading(false)
+                setMessage(response.data.message)
+            }
+        } catch (error) {
+            if (error) {
+                console.log(error)
+            }
+        }
+    }
 
     if (isLoading) {
         return (
@@ -71,7 +114,11 @@ const Index = () => {
                                 <div className="card-body text-center">
                                     <img src={item.book.bookImage} className="img-fluid" alt="..." />
                                     <p>{item.book.bookName.slice(0, 15)}</p>
-                                    <button type="button" className="btn btn-light shadow-none">View</button>
+                                    <button
+                                        type="button"
+                                        className="btn btn-light shadow-none"
+                                        onClick={() => ViewBook(item.book.id)}
+                                    >View</button>
                                 </div>
                             </div>
                         )}
@@ -79,6 +126,17 @@ const Index = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Status Modal */}
+            {show ?
+                <ViewStatusModal
+                    show={show}
+                    message={message}
+                    loading={requestLoading}
+                    sendAccessRequest={sendAccessRequest}
+                    onHide={() => setShow(false)}
+                />
+                : null}
 
         </div>
     );
