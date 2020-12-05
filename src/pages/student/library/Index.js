@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 import { apiURL } from '../../../utils/apiURL'
 import '../../../styles/student/style.scss'
 import Skeleton from 'react-loading-skeleton'
@@ -8,6 +9,7 @@ import NavBar from '../../../components/student/Navbar/Index'
 import ViewStatusModal from '../../../components/student/Modal/ViewStatus'
 
 const Index = () => {
+    const history = useHistory()
     const [show, setShow] = useState(false)
     const [isLoading, setLoading] = useState(true)
     const [requestLoading, setRequestLoading] = useState(false)
@@ -42,6 +44,7 @@ const Index = () => {
     // View Book
     const ViewBook = async (data) => {
         try {
+            // history.push(`/student/book/${data}/show`)
             setBookId(data)
             const response = await axios.get(`${apiURL}student/request/${data}/view`, header)
             console.log(response)

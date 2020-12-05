@@ -29,7 +29,7 @@ const Login = () => {
         }
 
         if (role === 'librarian') {
-            return history.push('/student')
+            return history.push('/librarian')
         }
     }
 
