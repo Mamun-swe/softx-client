@@ -43,7 +43,6 @@ const Index = () => {
         try {
             setUpdateLoading(data.id)
             const response = await axios.post(`${apiURL}librarian/request/status/update`, data, header)
-            console.log(response)
             if (response.status === 200) {
                 fetchRequests()
                 setUpdateLoading(null)

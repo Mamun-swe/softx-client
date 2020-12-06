@@ -8,16 +8,37 @@ import {
     ic_lock,
     ic_library_books
 } from 'react-icons-kit/md'
+import axios from 'axios'
+import { apiURL } from '../../../utils/apiURL'
 
 import ProfileImg from '../../../assets/static/Logo.png'
 
-const Index = () => {
+const Index = ({ user }) => {
     const history = useHistory()
     const [isLoading, setLoading] = useState(false)
 
-    const doLogout = () => {
-        setLoading(true)
-        // history.push('/')
+    // Header
+    const header = {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+    }
+
+    // Logout
+    const doLogout = async () => {
+        try {
+            setLoading(true)
+            const response = await axios.get(`${apiURL}auth/logout`, header)
+            if (response.status === 200) {
+                setLoading(false)
+                localStorage.clear()
+                history.push('/')
+            }
+        } catch (error) {
+            if (error) {
+                setLoading(false)
+                localStorage.clear()
+                history.push('/')
+            }
+        }
     }
 
     return (
@@ -30,8 +51,8 @@ const Index = () => {
                         <img src={ProfileImg} className="img-fluid" alt="..." />
                     </div>
                     <div className="content">
-                        <p>mamun</p>
-                        <small>librarian</small>
+                        <p>{user.name}</p>
+                        <small>{user.role}</small>
                     </div>
                 </div>
             </div>
