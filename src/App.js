@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import LoginPage from './pages/auth/Login'
 import RegisterPage from './pages/auth/Register'
 
-import StudentMaster from './pages/student/Master'
+// import StudentMaster from './pages/student/Master'
+import LibrarianMaster from './pages/librarian/Master'
 import PrivateRoute from './components/PrivateRoute/Index'
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
           <Route exact path="/register" component={RegisterPage} />
 
           <PrivateRoute>
-            <Route path="/student" component={StudentMaster} />
+            {/* <Route path="/student" component={StudentMaster} /> */}
+            <Route path="/librarian" component={LibrarianMaster} />
           </PrivateRoute>
         </Switch>
       </Router>
