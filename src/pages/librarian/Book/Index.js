@@ -24,6 +24,8 @@ const Index = () => {
     const [editLoading, setEditLoading] = useState(false)
     const [editData, setEditData] = useState()
 
+    const [serverMsg, setServerMsg] = useState()
+
 
     const header = {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
@@ -40,10 +42,13 @@ const Index = () => {
             if (response.status === 200) {
                 setBooks(response.data.results)
                 setLoading(false)
+                setServerMsg(null)
             }
         } catch (error) {
             if (error) {
-                console.log(error)
+                setLoading(false)
+                setServerMsg(error.response.data.message)
+                console.log(error.response)
             }
         }
     }
@@ -145,6 +150,16 @@ const Index = () => {
                         <div className="card border-0 shadow">
                             <div className="card-body">
                                 <p>Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    : null}
+
+                {serverMsg ?
+                    <div className="col-12 pl-lg-0 mb-3 text-center">
+                        <div className="card border-0 shadow">
+                            <div className="card-body">
+                                <h6>{serverMsg}</h6>
                             </div>
                         </div>
                     </div>

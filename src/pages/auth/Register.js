@@ -19,7 +19,7 @@ const Register = () => {
         try {
             setLoading(true)
             const response = await axios.post(`${apiURL}auth/register`, data)
-            if (response.status === 200) {
+            if (response.status === 201) {
                 toast.success(response.data.message)
                 setLoading(false)
                 history.push('/')

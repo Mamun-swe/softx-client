@@ -7,6 +7,7 @@ import '../../styles/librarian/style.scss'
 import SideMenu from '../../components/librarian/SideMenu/Index'
 import DashboardIndex from './Dashboard/Index'
 import BookIndex from './Book/Index'
+import RequestIndex from './Requests/Index'
 
 const Master = () => {
     const [show, setShow] = useState(false)
@@ -46,6 +47,7 @@ const Master = () => {
                     <Switch>
                         <Route exact path="/librarian/" component={DashboardIndex} />
                         <Route exact path="/librarian/books" component={BookIndex} />
+                        <Route exact path="/librarian/requests" component={RequestIndex} />
                     </Switch>
                 </div>
             </div>
