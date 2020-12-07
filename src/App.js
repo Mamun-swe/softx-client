@@ -10,6 +10,7 @@ import LibrarianMaster from './pages/librarian/Master'
 import PrivateRoute from './components/PrivateRoute/Index'
 
 function App() {
+
   return (
     <div className="App">
       <Router>
@@ -17,10 +18,8 @@ function App() {
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/register" component={RegisterPage} />
 
-          <PrivateRoute>
-            <Route path="/student" component={StudentMaster} />
-            {/* <Route path="/librarian" component={LibrarianMaster} /> */}
-          </PrivateRoute>
+          <PrivateRoute path="/student" component={StudentMaster} />
+          <PrivateRoute path="/librarian" component={LibrarianMaster} />
         </Switch>
       </Router>
     </div>

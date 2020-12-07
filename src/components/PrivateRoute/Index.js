@@ -6,8 +6,7 @@ export default function PrivateRoute({ children, ...rest }) {
     const loggedIn = checkIfLoggedIn()
 
     return (
-        <Route
-            {...rest}
+        <Route {...rest}
             render={({ location }) =>
                 loggedIn ? (
                     children
