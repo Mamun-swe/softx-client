@@ -26,14 +26,14 @@ const Index = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const response = await axios.get(`${apiURL}student/request/pending`, header)
+                const response = await axios.get(`${apiURL}student/request/approved`, header)
                 if (response.status === 200) {
                     setLoading(false)
                     setBooks(response.data.requests)
                 }
             } catch (error) {
                 if (error) {
-                    console.log(error);
+                    setLoading(false)
                 }
             }
         }
@@ -42,12 +42,13 @@ const Index = () => {
     }, [])
 
     // View Book
-    const ViewBook = async (data) => {
+    const ViewBook = async (id) => {
         try {
-            // history.push(`/student/book/${data}/show`)
-            setBookId(data)
-            const response = await axios.get(`${apiURL}student/request/${data}/view`, header)
-            console.log(response)
+            setBookId(id)
+            const response = await axios.get(`${apiURL}student/request/${id}/view`, header)
+            if (response.status === 200) {
+                history.push(`/student/book/${id}/show`)
+            }
         } catch (error) {
             if (error) {
                 setMessage(error.response.data.message)
@@ -112,7 +113,7 @@ const Index = () => {
                 <div className="row">
                     <div className="col-12">
 
-                        {books && books.length > 0 && books.map((item, i) =>
+                        {books && books.length > 0 ? books.map((item, i) =>
                             <div className="card rounded-0 border-0 book-card" key={i}>
                                 <div className="card-body text-center">
                                     <img src={item.book.bookImage} className="img-fluid" alt="..." />
@@ -124,7 +125,11 @@ const Index = () => {
                                     >View</button>
                                 </div>
                             </div>
-                        )}
+                        ) :
+                            <div className="text-center py-5">
+                                <h5>Opps ! No books found in your library.</h5>
+                            </div>
+                        }
 
                     </div>
                 </div>

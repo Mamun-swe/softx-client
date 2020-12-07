@@ -1,13 +1,39 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import NavBar from '../../../components/student/Navbar/Index'
-
-import Logo from '../../../assets/static/node.jpg'
+import axios from 'axios'
+import { apiURL } from '../../../utils/apiURL'
+import { useHistory, useParams } from 'react-router-dom'
 
 const Show = () => {
     const contentBox = useRef()
-    const [isLoading, setLoading] = useState(false)
+    const { id } = useParams()
+    const history = useHistory()
+    const [isLoading, setLoading] = useState(true)
+    const [book, setBook] = useState()
 
+    useEffect(() => {
+        const header = {
+            headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+        }
+
+        // View Book
+        const ViewBook = async () => {
+            try {
+                const response = await axios.get(`${apiURL}student/request/${id}/view`, header)
+                if (response.status === 200) {
+                    setBook(response.data.response)
+                    setLoading(false)
+                }
+            } catch (error) {
+                if (error) {
+                    history.push('/student/library')
+                }
+            }
+        }
+
+        ViewBook()
+    }, [id])
 
     if (isLoading) {
         return (
@@ -16,7 +42,7 @@ const Show = () => {
                 <div className="container py-3 py-lg-5">
                     <div className="row">
                         <div className="col-12 col-lg-5 text-center">
-                            <Skeleton animation={true} count={1} width={200} height={250} />
+                            <Skeleton animation={true} count={1} width={250} height={350} />
                         </div>
 
                         <div className="col-12 col-lg-7 py-3 py-lg-0" ref={contentBox}>
@@ -47,15 +73,15 @@ const Show = () => {
             <div className="container py-3 py-lg-5">
                 <div className="row">
                     <div className="col-12 col-lg-5 text-center">
-                        <img src={Logo} className="img-fluid" alt="..." />
+                        <img src={book.bookImage} style={styles.image} className="img-fluid" alt="..." />
                     </div>
 
                     <div className="col-12 col-lg-7 py-3 py-lg-0">
                         <h4>gggggg</h4>
-                        <p style={styles.text}>This is</p>
-                        <p style={styles.text}>This is</p>
-                        <p style={styles.text}>This is</p>
-                        <p style={styles.text}>This is</p>
+                        <p style={styles.text}>{book.bookName}</p>
+                        <p style={styles.text}>Author: {book.author}</p>
+                        <p style={styles.text}>Genre: {book.genre}</p>
+                        <p style={styles.text}>Release date: {book.releaseDate}</p>
                     </div>
                 </div>
             </div>
@@ -70,5 +96,9 @@ const styles = {
     text: {
         fontSize: 15,
         marginBottom: 5
+    },
+    image: {
+        width: 250,
+        height: 350
     }
 }

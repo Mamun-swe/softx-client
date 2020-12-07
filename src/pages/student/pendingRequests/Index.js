@@ -25,7 +25,7 @@ const Index = () => {
                 }
             } catch (error) {
                 if (error) {
-                    console.log(error);
+                    setLoading(false)
                 }
             }
         }
@@ -67,7 +67,7 @@ const Index = () => {
                 <div className="row">
                     <div className="col-12">
 
-                        {books && books.length > 0 && books.map((item, i) =>
+                        {books && books.length > 0 ? books.map((item, i) =>
                             <div className="card rounded-0 border-0 book-card" key={i}>
                                 <div className="card-body text-center">
                                     <img src={item.book.bookImage} className="img-fluid" alt="..." />
@@ -75,7 +75,11 @@ const Index = () => {
                                     <button type="button" className="btn btn-light shadow-none" disabled>Pending</button>
                                 </div>
                             </div>
-                        )}
+                        ) :
+                            <div className="text-center py-5">
+                                <h5>No request found.</h5>
+                            </div>
+                        }
 
                     </div>
                 </div>
