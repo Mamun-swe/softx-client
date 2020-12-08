@@ -1,13 +1,11 @@
-import React from 'react';
-import { checkIfLoggedIn } from '../../utils/Authenticate';
-import { Route, Redirect } from 'react-router-dom';
+import React from 'react'
+import { Route, Redirect } from 'react-router-dom'
+import Authenticate from '../../utils/Authenticate'
 
-export default function PrivateRoute({ children, ...rest }) {
-    const loggedIn = checkIfLoggedIn()
-
+export default function PrivateRoute({ component: Component, ...rest }) {
+  
     return (
-        <Route
-            {...rest}
+        <Route {...rest}
             render={({ location }) =>
                 loggedIn ? (
                     children
@@ -22,3 +20,5 @@ export default function PrivateRoute({ children, ...rest }) {
         />
     );
 }
+
+

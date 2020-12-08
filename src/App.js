@@ -8,8 +8,10 @@ import RegisterPage from './pages/auth/Register'
 import StudentMaster from './pages/student/Master'
 import LibrarianMaster from './pages/librarian/Master'
 import PrivateRoute from './components/PrivateRoute/Index'
+import Authorization from './utils/Authenticate'
 
 function App() {
+
   return (
     <div className="App">
       <Router>
@@ -17,10 +19,13 @@ function App() {
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/register" component={RegisterPage} />
 
-          <PrivateRoute>
-            <Route path="/student" component={StudentMaster} />
-            {/* <Route path="/librarian" component={LibrarianMaster} /> */}
-          </PrivateRoute>
+          <PrivateRoute path="/student" component={StudentMaster} />
+          <PrivateRoute path="/librarian" component={LibrarianMaster} />
+
+
+          {/* <PrivateRoute path="/student" component={Authorization(StudentMaster, ["student"])} />
+          <PrivateRoute path="/librarian" component={Authorization(LibrarianMaster, ["librarian"])} /> */}
+
         </Switch>
       </Router>
     </div>

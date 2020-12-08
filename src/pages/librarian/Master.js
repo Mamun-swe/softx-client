@@ -10,6 +10,7 @@ import SideMenu from '../../components/librarian/SideMenu/Index'
 import DashboardIndex from './Dashboard/Index'
 import BookIndex from './Book/Index'
 import RequestIndex from './Requests/Index'
+// import { HandleResponse } from '../../utils/HandleResponse'
 
 const Master = () => {
     const [show, setShow] = useState(false)
@@ -29,6 +30,7 @@ const Master = () => {
             } catch (error) {
                 if (error) {
                     console.log(error.response)
+                    // HandleResponse(error.response)
                 }
             }
         }
