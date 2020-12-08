@@ -52,16 +52,15 @@ const Index = () => {
         const query = data.query
         try {
             setLoading(true)
-            const response = await axios.get(`${apiURL}student/request/book/search/${query}`)
+            const response = await axios.get(`${apiURL}student/request/book/search/${query}`, header)
             if (response.status === 200) {
                 setFilteredBooks(response.data)
                 setLoading(false)
-                console.log(response.data)
             }
         } catch (error) {
             if (error) {
                 setLoading(false)
-                console.log(error)
+                console.log(error.response)
             }
         }
     }

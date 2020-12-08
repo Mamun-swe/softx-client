@@ -46,6 +46,7 @@ const Login = () => {
             if (error) {
                 setLoading(false)
                 toast.warn(error.response.data.message)
+                console.log(error.response)
             }
         }
     }

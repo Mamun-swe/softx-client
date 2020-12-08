@@ -1,18 +1,21 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import Authenticate from '../../utils/Authenticate'
+import React from 'react';
+import { checkIfLoggedIn } from '../../utils/Authenticate';
+import { Route, Redirect } from 'react-router-dom';
 
-export default function PrivateRoute({ component: Component, ...rest }) {
-  
+export default function PrivateRoute({ props, children, ...rest }) {
+    const loggedIn = checkIfLoggedIn()
+
     return (
-        <Route {...rest}
+        <Route
+            {...rest}
             render={({ location }) =>
-                loggedIn ? (
+                loggedIn && loggedIn.role === rest.role ? (
                     children
                 ) : (
                         <Redirect
                             to={{
-                                pathname: "/"
+                                pathname: "/",
+                                from: location
                             }}
                         />
                     )

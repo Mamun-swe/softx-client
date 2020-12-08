@@ -1,12 +1,13 @@
-import jwt_decode from 'jwt-decode'
+import jwt_decode from "jwt-decode"
 
-export const isAuthenticate = () => {
-    const token = localStorage.getItem('token')
+export const checkIfLoggedIn = () => {
+    const token = localStorage.getItem("token");
     if (token) {
-        const user = jwt_decode(token)
-        return { ...user, token }
+        const user = jwt_decode(token);
+        if (user.role === 'student' || 'librarian') {
+            return ({ role: user.role })
+        }
+        return false
     }
     return false;
 };
-
-

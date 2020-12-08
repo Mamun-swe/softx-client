@@ -22,7 +22,7 @@ const Index = () => {
                 }
             } catch (error) {
                 if (error) {
-                    console.log(error)
+                    console.log(error.response)
                 }
             }
         }
